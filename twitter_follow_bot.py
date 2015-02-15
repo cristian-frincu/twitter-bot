@@ -1,22 +1,5 @@
 # -*- coding: utf-8 -*-
 
-"""
-Copyright 2014 Randal S. Olson
-
-This file is part of the Twitter Follow Bot library.
-
-The Twitter Follow Bot library is free software: you can redistribute it and/or
-modify it under the terms of the GNU General Public License as published by the
-Free Software Foundation, either version 3 of the License, or (at your option) any
-later version.
-
-The Twitter Follow Bot library is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with the Twitter
-Follow Bot library. If not, see http://www.gnu.org/licenses/.
-"""
 
 from twitter import Twitter, OAuth, TwitterHTTPError
 import os
@@ -45,8 +28,7 @@ MIN_TO_UNFOLLOW_PER_ROUND=4
 MAX_TO_UNFOLLOW_PER_ROUND=6 # VALUE * numOfRounds
 ROUNDS_TO_START_UNFOLLOW_AFTER= random.randint(1,5)
 
-t = Twitter(auth=OAuth(OAUTH_TOKEN, OAUTH_SECRET,
-            CONSUMER_KEY, CONSUMER_SECRET))
+t = Twitter(auth=OAuth(OAUTH_TOKEN, OAUTH_SECRET,CONSUMER_KEY, CONSUMER_SECRET),retry = True)
 
 
 def search_tweets(q, count=100, result_type="recent"):
@@ -264,6 +246,8 @@ def auto_unmute():
         if user_id not in users_keep_muted:
             t.mutes.users.destroy(user_id=user_id)
             print("unmuted %d" % (user_id))
+
+
 
 
 # timesRunning = 0
