@@ -21,9 +21,55 @@ def sigmoidTanh(x):
 def sigmoidStandard(x):
 	return 1/(1+exp(-x))
 
-#derivatives of the sigmoids respectively
+#derivatives of the sigmoids respectively	
 def dsigmoidTanh(y):
 	return 1.0 - y**2
 
 def dsigmoidStandard(y):
 	return sigmoidStandard(y)*(1-sigmoidStandard(y))
+
+
+class NN:
+	def __init__(self,ni,nh,no):
+		#number of inputs,hidden nodes, output nodes
+		self.ni=ni+1 #+1 for bias node, it has been added
+		#in the example code so I will keep it but I am not sure why
+		#it is necessary
+		self.nh = nh
+		self.no
+
+
+		#activations for nodes
+		self.ai = [1.0]*self.ni
+		self.ah = [1.0]*self.nh
+		self.ao = [1.0]*self.no
+
+
+		#weights
+		self.wi = makeMatrix(self.ni, self.nh)
+		self.wo = makeMatrix(self.nh, self.no)
+
+		#setting the weight to random values
+		for i in range(self.ni):
+			for j in range(self.nh):
+				self.wi[i][j] = rand(-1.0,1.0)
+		for j in range(self.nh):
+			for j in range(self.no):
+				self.wo[j][k] = rand(-2.0,2.0)
+
+		#last change in weight for moementum???
+		#no exactly sure what this means
+		self.ci = makeMatrix(self.ni, self.nh)
+		self.co = makeMatrix(self.nh, self.no)
+
+	def update(self,inputs):
+		if len(inputs) != self.ni-1:
+			raise ValueError("Wrong number of inputs")
+
+
+
+
+
+
+
+
