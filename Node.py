@@ -19,7 +19,7 @@ def sigmoidTanh(x):
 	return math.tanh(x)
 
 def sigmoidStandard(x):
-	return 1/(1+exp(-x))
+	return 1/(1+math.exp(-x))
 
 #derivatives of the sigmoids respectively	
 def dsigmoidTanh(y):
@@ -36,7 +36,7 @@ class NN:
 		#in the example code so I will keep it but I am not sure why
 		#it is necessary
 		self.nh = nh
-		self.no
+		self.no = no
 
 
 		#activations for nodes
@@ -54,7 +54,7 @@ class NN:
 			for j in range(self.nh):
 				self.wi[i][j] = rand(-1.0,1.0)
 		for j in range(self.nh):
-			for j in range(self.no):
+			for k in range(self.no):
 				self.wo[j][k] = rand(-2.0,2.0)
 
 		#last change in weight for moementum???
@@ -69,21 +69,29 @@ class NN:
 		#input activations
 		for i in range(self.ni-1):
 			self.ai[i] = inputs[i]
+		print "Activation inputs",self.ai
 
 		#hidden activations
 		for j in range(self.nh):
 			sum = 0.0
 			for i in range(self.ni):
 				sum = sum + self.ai[i] * self.wi[i][j]
-			self.ah[j] = sigmoid(sum)
+			self.ah[j] = sigmoidStandard(sum)
+		print "Activation hidden",self.ah
 
 		#output activations
 		for k in range(self.no):
 			sum = 0.0
 			for j in range(self.nh):
-				sum = sum + self.ah[j]* self.wo[j][k]
-
+				sum = sum + self.ah[j] * self.wo[j][k]
 		return self.ao[:]
+
+n = NN(1,2,1)
+n.update([1])
+
+
+
+
 
 
 
