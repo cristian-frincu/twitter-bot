@@ -2,6 +2,7 @@ import math
 import random
 import string
 
+random.seed(0)
 #return a number between a and b
 def rand(a,b):
 	return (b-a)*random.random()+ a
@@ -86,8 +87,37 @@ class NN:
 				sum = sum + self.ah[j] * self.wo[j][k]
 		return self.ao[:]
 
-n = NN(1,2,1)
-n.update([1])
+	def backPropagete(self,targets,N,M):
+		if len(targets) != self.no:
+			raise ValueError('Wrong number of target values')
+
+		#calcualte erorr for output
+		output_deltas = [0.0] * self.no
+		for k in range(self.no):
+			error = targets[k] - self.ao[k]
+			output_deltas[k] = dsigmoidStandard(self.ao[k]) * error
+
+
+		#calcualte error for hidden
+		for j in range(self.nh):
+			error = 0.0
+			for k in range(self.no):
+				error = error + output_deltas[k]*self.wo[j][k]
+			hidden_deltas[k] = dsigmoidStandard(self.ah[j]) * error
+
+		# update output weights
+		for j in range(self.nh):
+			for k in range(self.no):
+				change = output_deltas[k]*self.ah[j]
+				self.wo[j][k] = self.wo[j][k] + N*change + M*self.co[j][k]
+				self.co[j][k] = change
+				print "N*Change ", N*change
+				print "M*self.co ", M*self.co[j][k]
+
+
+
+n = NN(0,2,1)
+n.backPropagete([1],2,3)
 
 
 
