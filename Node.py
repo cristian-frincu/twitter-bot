@@ -66,9 +66,24 @@ class NN:
 		if len(inputs) != self.ni-1:
 			raise ValueError("Wrong number of inputs")
 
+		#input activations
+		for i in range(self.ni-1):
+			self.ai[i] = inputs[i]
 
+		#hidden activations
+		for j in range(self.nh):
+			sum = 0.0
+			for i in range(self.ni):
+				sum = sum + self.ai[i] * self.wi[i][j]
+			self.ah[j] = sigmoid(sum)
 
+		#output activations
+		for k in range(self.no):
+			sum = 0.0
+			for j in range(self.nh):
+				sum = sum + self.ah[j]* self.wo[j][k]
 
+		return self.ao[:]
 
 
 
